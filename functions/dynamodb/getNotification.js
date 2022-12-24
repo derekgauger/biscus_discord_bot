@@ -28,10 +28,10 @@ module.exports = (client) => {
         let result = await docClient.scan(params).promise();
 
         if (result.Count !== 0) {
-            exists = true
+            return result.Items
         }
 
-        return (exists)
+        return null
 
     }
 }

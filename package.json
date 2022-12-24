@@ -13,6 +13,7 @@
     "@twurple/auth": "^5.2.7",
     "aws-sdk": "^2.1282.0",
     "discord.js": "^14.7.1",
+    "node-cron": "^3.0.2",
     "sharp": "^0.31.3",
     "uuid": "^9.0.0"
   }

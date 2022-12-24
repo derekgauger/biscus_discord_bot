@@ -22,7 +22,7 @@ module.exports = {
         let reply = ""
         if (isTwitchUser) {
             try {
-                if (notification === true) {
+                if (notification !== null) {
                     reply = "That Twitch account is already being monitored by this server!"
                 } else {
                     await client.addNotification(username, guildName, guildId)

@@ -4,7 +4,10 @@ const { Routes } = require("discord-api-types/v10");
 
 require('dotenv').config();
 
+const cron = require('node-cron')
 const fs = require('fs')
+
+require('./functions/automation/monitorTwitchNotifications')
 
 const token = process.env.token
 const bot_id = process.env.bot_id
@@ -45,6 +48,11 @@ client.once('ready', () => {
     })
     
     console.log("Biscus will prevail...")
+
+    const startMonitor = cron.schedule("0 * * * * *", function() {
+        console.log("Checking for updates")
+        checkChannelsForUpdates()
+    })
 
     setCommands()
 })

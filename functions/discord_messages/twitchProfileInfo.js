@@ -28,7 +28,7 @@ module.exports = (client) => {
         }
 
         if (profileInfo.profileDescription === '') {
-            profileDescription = `${profileInfo.name} has not setup a profile description yet`
+            profileInfo.profileDescription = `${profileInfo.name} has not setup a profile description yet`
         }
 
         thumbnail = thumbnail.replace('\{width\}', 500).replace('\{height\}', 500)
@@ -42,7 +42,7 @@ module.exports = (client) => {
                 iconURL: `${profileInfo.pfpURL}`,
                 url: `https://www.twitch.tv/${profileInfo.name}`,
             })
-            .setDescription(profileDescription)
+            .setDescription(profileInfo.profileDescription)
             .setThumbnail(`${thumbnail}`)
             .addFields(
                 { name: `Profile Info:`, value: `Status: ${status} \n Link: https://www.twitch.tv/${profileInfo.name} \n Language: ${language}`},

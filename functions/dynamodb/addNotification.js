@@ -20,7 +20,8 @@ module.exports = (client) => {
                 url: `https://www.twitch.tv/${username}`,
                 name: guildName,
                 guildId: guildId,
-                username: username
+                username: username,
+                isStreaming: false 
             }
         }
         

@@ -23,7 +23,7 @@ module.exports = {
             if (interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
                 let notification = await client.getNotification(username, id)
 
-                if (notification === true) {
+                if (notification !== null) {
                     await client.removeNotification(username, id, name)
                     reply = `Removed '${username}'s Twitch channel notifications!`
 

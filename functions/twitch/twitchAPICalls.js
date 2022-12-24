@@ -87,7 +87,19 @@ module.exports = () => {
 		userInfo.pfpURL = user.profilePictureUrl
 
 		return userInfo
+	},
+
+	searchGameStreams = async (query, language) => {
+		const game = await apiClient.games.getGameByName(query)
+		if (!game) {
+			return null
+		}
+		const queryResults = await apiClient.streams.getStreams({game: game.id, language: language});
+	
+		return queryResults.data
 	}
+
+	
 }
 
 function getDateString(creationDate) {
