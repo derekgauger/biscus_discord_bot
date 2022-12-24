@@ -1,27 +1,46 @@
 const { SlashCommandBuilder } = require('discord.js')
-require('../../functions/discord_messages/twitchProfileInfo')
+require('../../functions/dynamodb/addNotification')
+require('../../functions/twitch/twitchAPICalls')
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('add')
-        .setDescription("Get information about a twitch account")
-        .addStringOption((option) => option.setName('username').setDescription('Twitch account username you are trying to look up').setRequired(true))
-        .setDMPermission(true)
-        .setDescriptionLocalizations({
-            de: 'Informieren Sie sich über ein Twitch-Konto',
-        }),
+        .setDescription("Add a Twitch channel to the monitored list")
+        .addStringOption((option) => option.setName('username').setDescription('Twitch account username you are trying to add').setRequired(true))
+        .setDMPermission(true),
 
     async execute(interaction, client) {
 
-        const username = interaction.options.getString('username')
+        const username = interaction.options.getString('username').toLowerCase()
+        const guildName = interaction.guild.name
+        const guildId = interaction.guild.id
 
-        let embed = await client.createProfileInfo(username)
+        let notification = await client.getNotification(username, guildId)
 
-        console.log(`'${interaction.user.username}' used '/get ${username}' in '${interaction.guild.name}'`)
+        const isTwitchUser = await checkIsUser(username);
+
+        let reply = ""
+        if (isTwitchUser) {
+            try {
+                if (notification === true) {
+                    reply = "That Twitch account is already being monitored by this server!"
+                } else {
+                    await client.addNotification(username, guildName, guildId)
+                    reply = `Twitch Profile: '${username}' is now being monitored!`
+                }
+            } catch (error) {
+                reply = "An error occured :( Contact - Dirk#8540"
+                console.log(error)
+            }
+        } else {
+            reply = `'${username}' is not a valid Twitch Profile`
+        }
+
+
+        console.log(`'${interaction.user.username}' used '/add ${username}' in '${guildName}'`)
 
         await interaction.reply({
-            content: "Testing",
-            // embeds: [embed]
+            content: reply,
         }).catch(err => console.log(err))
     }
 }

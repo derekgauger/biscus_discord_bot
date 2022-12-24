@@ -1,27 +1,47 @@
-const { SlashCommandBuilder } = require('discord.js')
-require('../../functions/discord_messages/twitchProfileInfo')
+const { SlashCommandBuilder, PermissionFlagsBits, BaseGuildTextChannel, } = require('discord.js')
+require('../../functions/dynamodb/removeChannel')
+require('../../functions/dynamodb/getChannel')
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('unsetchannel')
-        .setDescription("Get information about a twitch account")
-        .addStringOption((option) => option.setName('username').setDescription('Twitch account username you are trying to look up').setRequired(true))
-        .setDMPermission(true)
-        .setDescriptionLocalizations({
-            de: 'Informieren Sie sich über ein Twitch-Konto',
-        }),
+        .setDescription("Turns off automatic Twitch notifications for your server")
+        .setDMPermission(false),
 
     async execute(interaction, client) {
+        const name = interaction.guild.name
+        const id = interaction.guild.id
+        const channel_id = interaction.channel.id
 
-        const username = interaction.options.getString('username')
+        console.log(`'${interaction.user.username}' used /unsetchannel in '${name}'`)
 
-        let embed = await client.createProfileInfo(username)
+        let reply = ""
 
-        console.log(`'${interaction.user.username}' used '/get ${username}' in '${interaction.guild.name}'`)
+        try {
+            if (interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
+                let channel = await client.getChannel(id)
+
+                if (channel === true) {
+                    await client.removeChannel(id, name)
+                    reply = "Removed Twitch notifications from this server!"
+
+                } else {
+                    reply = "Your server is not setup to receive Twitch notifications!"
+
+                }
+
+            } else {
+                reply = "You do not have permission to use this command. You need the **'Manage Server'** permission to proceed."
+                
+            }
+
+        } catch (error) {
+            reply = "There was an error :( - Contact: Dirk#8540"
+            console.log(error)
+        }
 
         await interaction.reply({
-            content: "Testing",
-            // embeds: [embed]
+            content: reply
         }).catch(err => console.log(err))
     }
 }

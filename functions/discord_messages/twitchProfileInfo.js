@@ -5,6 +5,7 @@ module.exports = (client) => {
     client.createProfileInfo = async (username) => {
 
         let profileInfo = await getProfileInfo(username)
+
         if (profileInfo === null) {
             return null
         }
@@ -26,7 +27,7 @@ module.exports = (client) => {
             language = profileInfo.language
         }
 
-        if (profileInfo.profileDescription === null) {
+        if (profileInfo.profileDescription === '') {
             profileDescription = `${profileInfo.name} has not setup a profile description yet`
         }
 
@@ -41,7 +42,7 @@ module.exports = (client) => {
                 iconURL: `${profileInfo.pfpURL}`,
                 url: `https://www.twitch.tv/${profileInfo.name}`,
             })
-            .setDescription(profileInfo.profileDescription)
+            .setDescription(profileDescription)
             .setThumbnail(`${thumbnail}`)
             .addFields(
                 { name: `Profile Info:`, value: `Status: ${status} \n Link: https://www.twitch.tv/${profileInfo.name} \n Language: ${language}`},

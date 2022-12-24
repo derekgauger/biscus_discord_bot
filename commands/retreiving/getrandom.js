@@ -4,8 +4,7 @@ require('../../functions/discord_messages/twitchProfileInfo')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('getrandom')
-        .setDescription("Get information about a twitch account")
-        .addStringOption((option) => option.setName('username').setDescription('Twitch account username you are trying to look up').setRequired(true))
+        .setDescription("Get a random Twitch account this bot is monitoring on any server")
         .setDMPermission(true)
         .setDescriptionLocalizations({
             de: 'Informieren Sie sich über ein Twitch-Konto',

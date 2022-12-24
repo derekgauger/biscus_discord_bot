@@ -1,27 +1,49 @@
-const { SlashCommandBuilder } = require('discord.js')
-require('../../functions/discord_messages/twitchProfileInfo')
+const { SlashCommandBuilder, PermissionFlagsBits, BaseGuildTextChannel, } = require('discord.js')
+require('../../functions/dynamodb/removeNotification')
+require('../../functions/dynamodb/getNotification')
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('remove')
-        .setDescription("Get information about a twitch account")
-        .addStringOption((option) => option.setName('username').setDescription('Twitch account username you are trying to look up').setRequired(true))
-        .setDMPermission(true)
-        .setDescriptionLocalizations({
-            de: 'Informieren Sie sich über ein Twitch-Konto',
-        }),
+        .setDescription("Remove a Twitch channel to the monitored list")
+        .addStringOption((option) => option.setName('username').setDescription('Twitch account username you are trying to remove').setRequired(true))
+        .setDMPermission(true),
 
     async execute(interaction, client) {
 
-        const username = interaction.options.getString('username')
+        const username = interaction.options.getString('username').toLowerCase()
+        const name = interaction.guild.name
+        const id = interaction.guild.id
 
-        let embed = await client.createProfileInfo(username)
+        console.log(`'${interaction.user.username}' used '/remove ${username}' in '${name}'`)
 
-        console.log(`'${interaction.user.username}' used '/get ${username}' in '${interaction.guild.name}'`)
+        let reply = ""
+
+        try {
+            if (interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
+                let notification = await client.getNotification(username, id)
+
+                if (notification === true) {
+                    await client.removeNotification(username, id, name)
+                    reply = `Removed '${username}'s Twitch channel notifications!`
+
+                } else {
+                    reply = `Your server is not currently monitoring '${username}'s Twitch channel!`
+
+                }
+
+            } else {
+                reply = "You do not have permission to use this command. You need the **'Manage Server'** permission to proceed."
+                
+            }
+
+        } catch (error) {
+            reply = "There was an error :( - Contact: Dirk#8540"
+            console.log(error)
+        }
 
         await interaction.reply({
-            content: "Testing",
-            // embeds: [embed]
+            content: reply
         }).catch(err => console.log(err))
     }
 }

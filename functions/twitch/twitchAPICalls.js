@@ -42,6 +42,12 @@ module.exports = () => {
 		return await apiClient.helix.streams.getStreamByUserId(user.id)
 	},
 
+	checkIsUser = async (userName) => {
+		const user = await apiClient.helix.users.getUserByName(userName)
+
+		return user !== null
+	},
+
 	getProfileInfo = async (userName) => {
 		let userInfo = {}
 		const user = await apiClient.helix.users.getUserByName(userName);
