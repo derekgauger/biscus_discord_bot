@@ -12,7 +12,6 @@ module.exports = {
     async execute(interaction, client) {
 
         const query = interaction.options.getString('game')
-        console.log(interaction)
 
         console.log(`'${interaction.user.username}' used '/getrandom ${query}' in '${interaction.guild.name}'`)
 
