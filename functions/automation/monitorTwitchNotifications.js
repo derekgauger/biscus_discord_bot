@@ -40,6 +40,14 @@ module.exports = (client) => {
                     getTwitchStream(userId).then((stream) => {
                         const isStreaming = stream !== null
                         const update = isStreaming !== streamer.isStreaming
+
+                        let username = ""
+                        if (isStreaming) {
+                            username = stream.userName
+                        } else {
+                            username = streamer.userName
+                        }
+
                         const updateParams = {
                             TableName: 'biscus-twitch-infos',
                             Key: {
@@ -48,7 +56,7 @@ module.exports = (client) => {
                             UpdateExpression: "set isStreaming = :isStreaming, userName = :userName",
                             ExpressionAttributeValues: {
                                 ':isStreaming': isStreaming,
-                                ':userName': stream.userName
+                                ':userName': username
                             }
                         }
     
@@ -58,7 +66,7 @@ module.exports = (client) => {
                             })
                         }
                         if (update && isStreaming) {
-                            client.createProfileInfo(stream.userName).then((embed) => {
+                            client.createProfileInfo(username).then((embed) => {
                                 const channel = client.channels.cache.get(guild.channelId)
                                 channel.send({
                                     content: `@here ${stream.userDisplayName} is now streaming!`,
