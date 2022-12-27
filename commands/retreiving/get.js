@@ -15,18 +15,20 @@ module.exports = {
 
         const username = interaction.options.getString('username')
 
+        await interaction.deferReply();
+
         let embed = await client.createProfileInfo(username)
 
         console.log(`'${interaction.user.username}' used '/get ${username}' in '${interaction.guild.name}'`)
 
 
         if (embed === null) {
-            await interaction.reply({
+            await interaction.editReply({
                 content: `You entered an invalid Twitch username - '${username}'`
             }).catch(err => console.log(err))
 
         } else {
-            await interaction.reply({
+            await interaction.editReply({
                 embeds: [embed]
             }).catch(err => console.log(err))
         }

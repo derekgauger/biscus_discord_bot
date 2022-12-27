@@ -38,7 +38,7 @@ module.exports = (client) => {
             .setColor(statusColor)
             .setTitle(`${profileInfo.name}'s Twitch Profile`)
             .setAuthor({
-                name: `Twitch Profile by Biscus`,
+                name: `Click here to go to this Twitch profile!`,
                 iconURL: `${profileInfo.pfpURL}`,
                 url: `https://www.twitch.tv/${profileInfo.name}`,
             })
@@ -54,7 +54,7 @@ module.exports = (client) => {
 
             )
             .setTimestamp()
-            .setFooter({ text: 'Biscus by Dirk', iconURL: 'https://i.imgur.com/6NtiiP4.png' })
+            .setFooter({ text: 'Biscus by Dirk', iconURL: 'https://i.imgur.com/oBwjVfG.png' })
         
         return embed
     }

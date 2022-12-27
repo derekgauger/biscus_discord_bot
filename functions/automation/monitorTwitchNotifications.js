@@ -60,7 +60,7 @@ module.exports = (client) => {
                             client.createProfileInfo(username).then((embed) => {
                                 const channel = client.channels.cache.get(guild.channelId)
                                 channel.send({
-                                    content: "@here",
+                                    content: `@here ${username} is now streaming!`,
                                     embeds: [embed]
                                 })
                             })

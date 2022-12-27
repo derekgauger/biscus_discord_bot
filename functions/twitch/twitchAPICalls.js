@@ -89,17 +89,33 @@ module.exports = () => {
 		return userInfo
 	},
 
-	searchGameStreams = async (query, language) => {
+	searchGameStreams = async (query, language, min, max) => {
 		const game = await apiClient.games.getGameByName(query)
 		if (!game) {
 			return null
 		}
-		const queryResults = await apiClient.streams.getStreams({game: game.id, language: language});
 	
-		return queryResults.data
+		let potentialStreams = []
+		let finishedScan = false
+		const queryResults = await apiClient.streams.getStreamsPaginated({game: game.id, language: language});
+		do {
+			let currentPage = await queryResults.getNext()
+			for (const stream of currentPage) {
+				if (min <= stream.viewers && stream.viewers <= max) {
+					potentialStreams.push(stream)
+				}
+				if ((stream.viewers < min)) {
+					finishedScan = true
+				}
+			}
+			if (currentPage.length === 0) {
+				finishedScan = true
+			}
+	
+		} while (!finishedScan)
+	
+		return potentialStreams
 	}
-
-	
 }
 
 function getDateString(creationDate) {

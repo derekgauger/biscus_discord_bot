@@ -33,7 +33,7 @@ for (const folder of functionFolders) {
 client.handleEvents()
 client.login(token).then(() => {
     client.user.setPresence({
-        activities: [{ name: 'biscus', type: Discord.ActivityType.Playing }],
+        activities: [{ name: `Biscus | Use '/info'`, type: Discord.ActivityType.Playing }],
         status: 'Online',
       })
 })
@@ -50,7 +50,6 @@ client.once('ready', () => {
     console.log("Biscus will prevail...")
 
     const startMonitor = cron.schedule("0 * * * * *", function() {
-        console.log("Checking for updates")
         checkChannelsForUpdates()
     })
 
