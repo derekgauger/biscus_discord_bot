@@ -20,7 +20,7 @@ module.exports = {
               .setLabel("Vote for Biscus")
               .setStyle(5)
               .setEmoji('🔮')
-              .setURL('https://top.gg/bot/929121472138604614/vote'),
+              .setURL('https://top.gg/bot/1051313886701309953/vote'),
           );
 
         await interaction.reply({

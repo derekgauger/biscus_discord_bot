@@ -10,7 +10,7 @@ module.exports = (client) => {
             author: {
                 name: 'Biscus',
                 icon_url: "https://i.imgur.com/oBwjVfG.png",
-                url: 'https://top.gg/bot/929121472138604614',
+                url: 'https://top.gg/bot/1051313886701309953',
             },
             thumbnail: {
                 url: "https://i.imgur.com/oBwjVfG.png",
@@ -18,7 +18,7 @@ module.exports = (client) => {
             fields: [
                 {
                     name: 'Link to Biscus bot information:',
-                    value: 'https://top.gg/bot/929121472138604614',
+                    value: 'https://top.gg/bot/1051313886701309953',
                 },
             ],
             timestamp: today,

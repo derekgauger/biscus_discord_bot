@@ -11,7 +11,7 @@ AWS.config.update({
 })
 
 module.exports = (client) => {
-    client.addNotification = async (username, guildName, guildId) => {
+    client.addNotification = async (userId, username, guildName, guildId) => {
 
         const params = {
             TableName: 'biscus-twitch-infos',
@@ -20,7 +20,8 @@ module.exports = (client) => {
                 url: `https://www.twitch.tv/${username}`,
                 name: guildName,
                 guildId: guildId,
-                username: username,
+                userId: userId,
+                userName: username,
                 isStreaming: false 
             }
         }
@@ -37,4 +38,3 @@ module.exports = (client) => {
 
     }
 }
-

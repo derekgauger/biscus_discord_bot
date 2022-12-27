@@ -36,8 +36,8 @@ module.exports = (client) => {
     
             docClient.scan(getStreamingParams).promise().then((streamList) => {
                 for (const streamer of streamList.Items) {
-                    const username = streamer.username
-                    getTwitchStream(username).then((stream) => {
+                    const userId = streamer.userId
+                    getTwitchStream(userId).then((stream) => {
                         const isStreaming = stream !== null
                         const update = isStreaming !== streamer.isStreaming
                         const updateParams = {
@@ -45,9 +45,10 @@ module.exports = (client) => {
                             Key: {
                                 id: streamer.id
                             },
-                            UpdateExpression: "set isStreaming = :isStreaming",
+                            UpdateExpression: "set isStreaming = :isStreaming, userName = :userName",
                             ExpressionAttributeValues: {
-                                ':isStreaming': isStreaming
+                                ':isStreaming': isStreaming,
+                                ':userName': stream.userName
                             }
                         }
     
@@ -57,10 +58,10 @@ module.exports = (client) => {
                             })
                         }
                         if (update && isStreaming) {
-                            client.createProfileInfo(username).then((embed) => {
+                            client.createProfileInfo(stream.userName).then((embed) => {
                                 const channel = client.channels.cache.get(guild.channelId)
                                 channel.send({
-                                    content: `@here ${username} is now streaming!`,
+                                    content: `@here ${stream.userDisplayName} is now streaming!`,
                                     embeds: [embed]
                                 })
                             })

@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js')
+const twitchAPICalls = require('../../functions/twitch/twitchAPICalls')
 require('../../functions/dynamodb/addNotification')
 require('../../functions/twitch/twitchAPICalls')
 
@@ -11,11 +12,15 @@ module.exports = {
 
     async execute(interaction, client) {
 
-        const username = interaction.options.getString('username').toLowerCase()
+        const username = interaction.options.getString('username')
         const guildName = interaction.guild.name
         const guildId = interaction.guild.id
 
-        let notification = await client.getNotification(username, guildId)
+        await interaction.deferReply();
+
+        const userId = await getUserId(username)
+
+        let notification = await client.getNotification(userId, guildId)
 
         const isTwitchUser = await checkIsUser(username);
 
@@ -25,7 +30,7 @@ module.exports = {
                 if (notification !== null) {
                     reply = "That Twitch account is already being monitored by this server!"
                 } else {
-                    await client.addNotification(username, guildName, guildId)
+                    await client.addNotification(userId, username, guildName, guildId)
                     reply = `Twitch Profile: '${username}' is now being monitored!`
                 }
             } catch (error) {
@@ -39,7 +44,7 @@ module.exports = {
 
         console.log(`'${interaction.user.username}' used '/add ${username}' in '${guildName}'`)
 
-        await interaction.reply({
+        await interaction.editReply({
             content: reply,
         }).catch(err => console.log(err))
     }

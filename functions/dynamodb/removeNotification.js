@@ -11,16 +11,16 @@ AWS.config.update({
 })
 
 module.exports = (client) => {
-    client.removeNotification = async (username, guildId, guildName) => {
+    client.removeNotification = async (userId, username, guildId, guildName) => {
 
         const docClient = new AWS.DynamoDB.DocumentClient();
 
         var scanParams = {
             TableName: 'biscus-twitch-infos',
-            FilterExpression: `guildId = :guildId AND username = :username`,
+            FilterExpression: `guildId = :guildId AND userId = :userId`,
             ExpressionAttributeValues: {
                 ':guildId': guildId,
-                ":username": username,
+                ":userId": userId,
             }
 
         }

@@ -33,8 +33,8 @@ module.exports = () => {
 	},
 
 	
-	getTwitchStream = async (userName) => {
-		const user = await apiClient.helix.users.getUserByName(userName);
+	getTwitchStream = async (userId) => {
+		const user = await apiClient.helix.users.getUserById(userId);
 		if (!user) {
 			return null
 		}
@@ -115,6 +115,16 @@ module.exports = () => {
 		} while (!finishedScan)
 	
 		return potentialStreams
+	},
+
+	getUserId = async (username) => {
+		const user = await apiClient.helix.users.getUserByName(username);
+		
+		if (!user) {
+			return null
+		}
+
+		return user.id
 	}
 }
 

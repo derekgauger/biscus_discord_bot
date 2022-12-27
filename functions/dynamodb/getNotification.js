@@ -10,14 +10,14 @@ AWS.config.update({
 })
 
 module.exports = (client) => {
-    client.getNotification = async (username, guildId) => {
+    client.getNotification = async (userId, guildId) => {
         
         var params = {
             TableName: 'biscus-twitch-infos',
-            FilterExpression: `guildId = :guildId AND username = :username`,
+            FilterExpression: `guildId = :guildId AND userId = :userId`,
             ExpressionAttributeValues: {
                 ':guildId': guildId,
-                ":username": username,
+                ":userId": userId,
             }
 
         }

@@ -43,6 +43,7 @@ client.handleCommands()
 var guild_id_list = []
 client.once('ready', () => {
     guild_id_list = client.guilds.cache.map(guild => guild.id)
+    console.log(`Number of guilds: ${guild_id_list.length}`)
     guild_id_list.forEach((guildId) => {
         console.log(client.guilds.cache.get(guildId).name + " : " + guildId)
     })

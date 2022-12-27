@@ -11,9 +11,13 @@ module.exports = {
 
     async execute(interaction, client) {
 
-        const username = interaction.options.getString('username').toLowerCase()
+        const username = interaction.options.getString('username')
         const name = interaction.guild.name
         const id = interaction.guild.id
+
+        await interaction.deferReply();
+
+        const userId = await getUserId(username)
 
         console.log(`'${interaction.user.username}' used '/remove ${username}' in '${name}'`)
 
@@ -21,10 +25,10 @@ module.exports = {
 
         try {
             if (interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-                let notification = await client.getNotification(username, id)
+                let notification = await client.getNotification(userId, id)
 
                 if (notification !== null) {
-                    await client.removeNotification(username, id, name)
+                    await client.removeNotification(userId, username, id, name)
                     reply = `Removed '${username}'s Twitch channel notifications!`
 
                 } else {
@@ -42,7 +46,7 @@ module.exports = {
             console.log(error)
         }
 
-        await interaction.reply({
+        await interaction.editReply({
             content: reply
         }).catch(err => console.log(err))
     }
