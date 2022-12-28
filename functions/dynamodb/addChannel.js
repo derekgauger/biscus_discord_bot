@@ -10,7 +10,7 @@ AWS.config.update({
 })
 
 module.exports = (client) => {
-    client.addChannel = async (guildName, guildId, channelId) => {
+    client.addChannel = async (guildName, guildId, channelId, roleName) => {
 
         const params = {
             TableName: 'biscus-channels',
@@ -18,6 +18,7 @@ module.exports = (client) => {
                 id: guildId,
                 name: guildName,
                 channelId: channelId,
+                mention: roleName
             }
         }
         
