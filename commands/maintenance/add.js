@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, PermissionFlagsBits, } = require('discord.js')
 const twitchAPICalls = require('../../functions/twitch/twitchAPICalls')
 require('../../functions/dynamodb/addNotification')
 require('../../functions/twitch/twitchAPICalls')
