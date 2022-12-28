@@ -17,29 +17,33 @@ module.exports = {
         const guildId = interaction.guild.id
 
         await interaction.deferReply();
-
-        const userId = await getUserId(username)
-
-        let notification = await client.getNotification(userId, guildId)
-
-        const isTwitchUser = await checkIsUser(username);
-
         let reply = ""
-        if (isTwitchUser) {
-            try {
-                if (notification !== null) {
-                    reply = "That Twitch account is already being monitored by this server!"
-                } else {
-                    await client.addNotification(userId, username, guildName, guildId)
-                    reply = `Twitch Profile: '${username}' is now being monitored!`
+
+        if (interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
+            const userId = await getUserId(username)
+            let notification = await client.getNotification(userId, guildId)
+            const isTwitchUser = await checkIsUser(username);
+
+            if (isTwitchUser) {
+                try {
+                    if (notification !== null) {
+                        reply = "That Twitch account is already being monitored by this server!"
+                    } else {
+                        await client.addNotification(userId, username, guildName, guildId)
+                        reply = `Twitch Profile: '${username}' is now being monitored!`
+                    }
+                } catch (error) {
+                    reply = "An error occured :( Contact - Dirk#8540"
+                    console.log(error)
                 }
-            } catch (error) {
-                reply = "An error occured :( Contact - Dirk#8540"
-                console.log(error)
+            } else {
+                reply = `'${username}' is not a valid Twitch Profile`
             }
         } else {
-            reply = `'${username}' is not a valid Twitch Profile`
+            reply = "You do not have permission to use this command. You need the **'Manage Server'** permission to proceed."
+
         }
+
 
 
         console.log(`'${interaction.user.username}' used '/add ${username}' in '${guildName}'`)
