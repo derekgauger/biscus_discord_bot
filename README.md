@@ -4,7 +4,7 @@ Commands:
 - /info : Gets the bot's voting and information page link
 - /get {Twitch Name} : Retrieves information about the specified Twitch profile
 - /getrandom {Game Name} optional: {min viewers} {max viewers} : Retrieves a random Twitch profile streaming the specified game. The optional 'max' and 'min' parameters will limit the current viewer count range.
-- /setchannel : Sets the channel you would like to receive notifications in
+- /setchannel Optional: {role-name} : Sets the channel you would like to receive notifications in. The optional 'role-name' parameter says which role should be @'d when receiving notifications.
 - /unsetchannel : Unsets the channel you are currently receiving notifications in
 - /add {Twitch Name} : Adds a Twitch notification for when the specified Twitch profile starts streaming
 - /remove {Twitch Name} : Removes the specified Twitch profile notifications.
