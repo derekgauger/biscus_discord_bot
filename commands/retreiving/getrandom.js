@@ -38,7 +38,10 @@ module.exports = {
 
         let queryResults = await searchGameStreams(query, interaction.guildLocale.substring(0,2), min, max)
 
+        let profileInfo = null
         let embed = null
+        let pfp = null
+        let button = null
         if (queryResults === null) {
             reply = `Invalid search: '${query}' is not a searchable game!`
 
@@ -50,8 +53,11 @@ module.exports = {
                 var randomStream = queryResults[Math.floor(Math.random()*queryResults.length)];
                 const username = randomStream.userName
     
-                embed = await client.createProfileInfo(username)
+                profileInfo = await client.createProfileInfo(username)
 
+                embed = profileInfo["embed"]
+                pfp = profileInfo["image_attachment"]
+                button = profileInfo["button"]
             }
         }
 
@@ -63,7 +69,9 @@ module.exports = {
             
         } else {
             await interaction.editReply({
-                embeds: [embed]
+                embeds: [embed],
+                files: [pfp],
+                components: [button]
             }).catch(err => console.log(err))
         }
     }

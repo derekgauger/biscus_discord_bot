@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.33",
     "@twurple/api": "^5.2.7",
     "@twurple/auth": "^5.2.7",
     "aws-sdk": "^2.1282.0",

@@ -66,24 +66,35 @@ module.exports = (client) => {
                             })
                         }
                         if (update && isStreaming) {
-                            client.createProfileInfo(username).then((embed) => {
+                            client.createProfileInfo(username).then((profileInfo) => {
                                 const channel = client.channels.cache.get(guild.channelId)
+
+                                let embed = profileInfo["embed"]
+                                let pfp = profileInfo["image_attachment"]
+                                let button = profileInfo["button"]
+
                                 if (guild.mention === "here" || guild.mention === "everyone") {
                                     channel.send({
                                         content: `@${guild.mention} ${stream.userDisplayName} is now streaming!`,
-                                        embeds: [embed]
+                                        embeds: [embed],
+                                        files: [pfp],
+                                        components: [button]
                                     })
                                 } else if (guild.mention !== "") {
                                     let current_guild = client.guilds.cache.get(guild.id)
                                     const role = current_guild.roles.cache.find(role => role.name.toLowerCase() === guild.mention.toLowerCase());
                                     channel.send({
                                         content: `${role} ${stream.userDisplayName} is now streaming!`,
-                                        embeds: [embed]
+                                        embeds: [embed],
+                                        files: [pfp],
+                                        components: [button]
                                     })
                                 } else {
                                     channel.send({
                                         content: `${stream.userDisplayName} is now streaming!`,
-                                        embeds: [embed]
+                                        embeds: [embed],
+                                        files: [pfp],
+                                        components: [button]
                                     })
                                 }
                             })
