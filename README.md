@@ -13,3 +13,8 @@ If you have any questions, please message me on discord - Dirk#8540
 
 **Invite Link**
 https://discord.com/api/oauth2/authorize?client_id=1051313886701309953&permissions=412317371456&scope=bot
+
+Examples:
+
+![image](https://user-images.githubusercontent.com/107506713/211960065-1228a2e7-971f-44db-80d3-7150666e3de2.png)
+![image](https://user-images.githubusercontent.com/107506713/211960147-34006b49-7db1-44b6-9851-1fb986b6b3b9.png)
