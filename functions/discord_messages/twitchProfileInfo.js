@@ -46,29 +46,37 @@ module.exports = (client) => {
               .setStyle(5)
               .setURL(`https://www.twitch.tv/${profileInfo.name}`),
           );
-    
-        const embed = new EmbedBuilder()
+        
+        let embed = new EmbedBuilder()
             .setColor(statusColor)
-            .setTitle(`${profileInfo.name}'s Twitch Profile`)
+            .setTitle(`${profileInfo.name}'s Twitch Profile - ${status}`)
             .setAuthor({
                 name: `Click here to go to this Twitch profile!`,
                 iconURL: `${profileInfo.pfpURL}`,
                 url: `https://www.twitch.tv/${profileInfo.name}`,
             })
-            .setDescription(profileInfo.profileDescription)
-            .setThumbnail(`${thumbnail}`)
-            .addFields(
-                { name: `Profile Info:`, value: `Status: ${status} \n Link: https://www.twitch.tv/${profileInfo.name} \n Language: ${language}`},
-                { name: "Joined", value: `${profileInfo.creationDate}`, inline: true },
+        if (title === "N/A") {
+            embed.setDescription(profileInfo.profileDescription)
+            embed.addFields(
                 { name: "Followers", value: `${profileInfo.followerCount}`, inline: true},
                 { name: "Viewers", value: `${profileInfo.currentViewers}`, inline: true },
-                { name: `Current Stream Title`, value: `${title}`},
-                { name: `Current Stream Game`, value: `${game}`}
+                { name: `Current Activity`, value: `${game}`, inline: true }
             )
-            .setImage('attachment://profile-image.png')
-            .setTimestamp()
-            .setFooter({ text: 'Biscus by Dirk', iconURL: 'https://i.imgur.com/oBwjVfG.png' })
-        
+
+
+        } else {
+            embed.addFields(
+                { name: `Current Stream Title`, value: `${title}`},
+                { name: "Followers", value: `${profileInfo.followerCount}`, inline: true},
+                { name: "Viewers", value: `${profileInfo.currentViewers}`, inline: true },
+                { name: `Current Activity`, value: `${game}`, inline: true }
+            )
+        }
+
+        embed.setImage('attachment://profile-image.png')
+        embed.setTimestamp()
+        embed.setFooter({ text: 'Biscus by Dirk', iconURL: 'https://i.imgur.com/oBwjVfG.png' })
+
         return { 
                 embed: embed,
                 image_attachment: attachment,
